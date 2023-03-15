@@ -1,14 +1,13 @@
 import Head from 'next/head';
 import { Box, Container, Divider, Stack, Typography, Unstable_Grid2 as Grid } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { StudentProfile } from 'src/sections/students/student-profile';
 import { StudentProfileForm } from 'src/sections/students/student-profile-form';
 
 const Page = () => (
   <>
     <Head>
       <title>
-        Estudante | Editar
+        Estudante | Criar
       </title>
     </Head>
     <Box
@@ -22,22 +21,17 @@ const Page = () => (
         <Stack spacing={3}>
           <div>
             <Typography variant="h4">
-              Editar Estudante
+              Criar Estudante
             </Typography>
           </div>
           <div>
-
-                <StudentProfile />
-
                 <Divider style={{margin: '15px 0 15px 0', border: 'none'}}/>
 
                 <StudentProfileForm
                   title={'Formulário'}
                   subheader={'Crie um novo estudante'}
-                  method={'PATCH'}
-
+                  method={'POST'}
                 />
-
           </div>
         </Stack>
       </Container>

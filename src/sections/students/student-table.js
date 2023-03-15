@@ -23,7 +23,7 @@ import {getInitials} from '../../utils/get-initials'
 
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 
 export const StudentsTable = (props) => {
@@ -42,8 +42,6 @@ export const StudentsTable = (props) => {
   } = props;
 
   console.log(items)
-
-  const route = useRouter()
 
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
@@ -131,19 +129,23 @@ export const StudentsTable = (props) => {
                       {student.course.name}
                     </TableCell>
                     <TableCell>
-                      <div>
-                        <IconButton
-                          aria-label="edit"
-                          onClick={() => {
-                            route.push('/students/edit')
-                          }}
-                        >
-                          <ModeEditOutlineOutlinedIcon />
-                        </IconButton>
-                        <IconButton aria-label="delete">
-                          <DeleteOutlinedIcon />
-                        </IconButton>
-                      </div>
+                      <Link
+                        href={{
+                          pathname: '/instituicoes/[institutionId]/estudantes/[studentId]',
+                          query: { institutionId: 40, studentId: student.id },
+                        }}
+                      >
+                        <div>
+                          <IconButton
+                            aria-label="edit"
+                          >
+                            <ModeEditOutlineOutlinedIcon />
+                          </IconButton>
+                          <IconButton aria-label="delete">
+                            <DeleteOutlinedIcon />
+                          </IconButton>
+                        </div>
+                      </Link>
                     </TableCell>
                   </TableRow>
                 );

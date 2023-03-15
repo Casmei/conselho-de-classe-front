@@ -19,6 +19,7 @@ import { useRouter } from 'next/navigation';
 
 export const StudentProfileForm = ({title, subheader, method}) => {
   const router = useRouter();
+
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -46,8 +47,12 @@ export const StudentProfileForm = ({title, subheader, method}) => {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        //TODO: Fazer um post para minha api
-        router.push('/students');
+        // if(method == 'POST') {
+        //   ApiService.post(`/institutions/40/students`, values).then(() => {
+        //     router.back()
+        //   })
+        // }
+        router.push('/instituicoes/40/estudantes');
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
@@ -56,18 +61,97 @@ export const StudentProfileForm = ({title, subheader, method}) => {
     }
   });
 
-  const [courses, setCourses] = useState([])
-  const [classes, setClasses] = useState([])
+  const [courses, setCourses] = useState([
+    {
+      "createdAt": "2023-03-06T11:51:44.042Z",
+      "updatedAt": "2023-03-06T11:51:44.042Z",
+      "deletedAt": null,
+      "id": "5ec248ac-cd77-4357-b397-90a2f2cc567b",
+      "name": "Análise e Desenvolvimento de Sistemas"
+    },
+    {
+      "createdAt": "2023-03-06T11:51:44.067Z",
+      "updatedAt": "2023-03-06T11:51:44.067Z",
+      "deletedAt": null,
+      "id": "3e49f80d-a08b-4ff6-be7b-c8d6333d22f0",
+      "name": "Enfermagem"
+    },
+    {
+      "createdAt": "2023-03-06T11:51:44.091Z",
+      "updatedAt": "2023-03-06T11:51:44.091Z",
+      "deletedAt": null,
+      "id": "b821dfd2-2490-40f4-8716-194658e8236f",
+      "name": "Processos Gerênciais"
+    },
+    {
+      "createdAt": "2023-03-06T11:51:44.102Z",
+      "updatedAt": "2023-03-06T11:51:44.102Z",
+      "deletedAt": null,
+      "id": "140c01ab-51d5-45d7-85ee-333bc558578a",
+      "name": "Engenharia de Software"
+    },
+    {
+      "createdAt": "2023-03-06T11:51:44.135Z",
+      "updatedAt": "2023-03-06T11:51:44.135Z",
+      "deletedAt": null,
+      "id": "478a4206-e86c-4b2d-823f-c0915041228c",
+      "name": "Turismo"
+    }
+  ])
+  const [classes, setClasses] = useState([
+    {
+      "createdAt": "2023-03-02T19:33:33.362Z",
+      "updatedAt": "2023-03-02T19:33:33.362Z",
+      "deletedAt": null,
+      "id": "0e73bbd8-c2ee-4213-b509-b5e4e9756506",
+      "name": "ABC1995"
+    },
+    {
+      "createdAt": "2023-03-02T19:33:33.388Z",
+      "updatedAt": "2023-03-02T19:33:33.388Z",
+      "deletedAt": null,
+      "id": "7b4160e3-189f-4915-add9-136289c67c7a",
+      "name": "ABC8353"
+    },
+    {
+      "createdAt": "2023-03-02T19:33:33.405Z",
+      "updatedAt": "2023-03-02T19:33:33.405Z",
+      "deletedAt": null,
+      "id": "99b0903b-fad0-4628-9457-4be1fe438f39",
+      "name": "ABC2021"
+    },
+    {
+      "createdAt": "2023-03-02T19:33:33.432Z",
+      "updatedAt": "2023-03-02T19:33:33.432Z",
+      "deletedAt": null,
+      "id": "a76ed6a2-898e-4b19-93fa-fd8a3c021972",
+      "name": "ABC2453"
+    },
+    {
+      "createdAt": "2023-03-02T19:33:33.461Z",
+      "updatedAt": "2023-03-02T19:33:33.461Z",
+      "deletedAt": null,
+      "id": "da4b52ef-892f-4e05-9d8b-decaa8802272",
+      "name": "ABC2022"
+    },
+    {
+      "createdAt": "2023-03-06T11:56:29.577Z",
+      "updatedAt": "2023-03-06T11:56:29.577Z",
+      "deletedAt": null,
+      "id": "f475eb22-44b7-4e21-b965-06113bbf01f5",
+      "name": "ADS2023"
+    }
+  ])
 
-  useEffect(() => {
-    ApiService.get('/institutions/40/classes').then((response) => {
-      setClasses(response.data)
-    })
+  // useEffect(() => {
+  //   ApiService.get('/institutions/40/classes').then((response) => {
+  //     setClasses(response.data)
+  //   })
 
-    ApiService.get('/institutions/40/courses').then((response) => {
-      setCourses(response.data)
-    })
-  }, [])
+  //   ApiService.get('/institutions/40/courses').then((response) => {
+  //     setCourses(response.data)
+  //   })
+  // }, [])
 
   return (
     <form
