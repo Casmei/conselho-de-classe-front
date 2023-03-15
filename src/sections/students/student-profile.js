@@ -1,4 +1,5 @@
 import {
+  Alert,
   Avatar,
   Box,
   Chip,
@@ -12,7 +13,10 @@ const user = {
   name: 'Patrick Barbacena Lopes',
 };
 
-export const AccountProfile = () => (
+import { getInitials } from 'src/utils/get-initials';
+
+export const StudentProfile = ({data}) => (
+  <>
       <Box
         sx={{
           display: 'flex',
@@ -21,13 +25,14 @@ export const AccountProfile = () => (
         }}
       >
         <Avatar
-          src={user.avatar}
           sx={{
             height: 80,
             mr: 2,
             width: 80
           }}
-        />
+        >
+          {getInitials(data.name)}
+        </Avatar>
         <Box
           sx={{
             display: 'flex',
@@ -38,17 +43,28 @@ export const AccountProfile = () => (
             gutterBottom
             variant="h4"
           >
-            {user.name}
+            {data.name}
           </Typography>
           <Box>
           <Typography
             style={{fontSize: 14, fontWeight: 500}}
           >
-            user_id: <Chip label="5e86805e2bafd54f66cc95c3"
+            user_id: <Chip label={data.id}
 size='small' />
           </Typography>
           </Box>
         </Box>
       </Box>
+      <Alert
+        color="primary"
+        severity="info"
+        sx={{ mt: 3 }}
+      >
+        <div>
+          Foto de aluno em <b>futuras</b> atualizações!
+        </div>
+      </Alert>
+  </>
+
 
 );

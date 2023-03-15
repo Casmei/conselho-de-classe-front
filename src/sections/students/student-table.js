@@ -6,6 +6,8 @@ import {
   Button,
   Card,
   Checkbox,
+  CircularProgress,
+  IconButton,
   Modal,
   Stack,
   Table,
@@ -18,6 +20,11 @@ import {
 } from '@mui/material';
 import {Scrollbar} from '../../components/scrollbar'
 import {getInitials} from '../../utils/get-initials'
+
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import Link from 'next/link';
+
 
 export const StudentsTable = (props) => {
   const {
@@ -33,6 +40,8 @@ export const StudentsTable = (props) => {
     rowsPerPage = 0,
     selected = []
   } = props;
+
+  console.log(items)
 
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
@@ -58,31 +67,30 @@ export const StudentsTable = (props) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Name
+                  Nome
                 </TableCell>
                 <TableCell>
-                  Email
+                  Registro
                 </TableCell>
                 <TableCell>
-                  Location
+                  Turma
                 </TableCell>
                 <TableCell>
-                  Phone
+                  Curso
                 </TableCell>
                 <TableCell>
-                  Signed Up
+                  Ações
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((customer) => {
-                const isSelected = selected.includes(customer.id);
-                const createdAt = format(customer.createdAt, 'dd/MM/yyyy');
+              {items.map((student) => {
+                const isSelected = selected.includes(student.id);
 
                 return (
                   <TableRow
                     hover
-                    key={customer.id}
+                    key={student.id}
                     selected={isSelected}
                   >
                     <TableCell padding="checkbox">
@@ -90,9 +98,9 @@ export const StudentsTable = (props) => {
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(customer.id);
+                            onSelectOne?.(student.id);
                           } else {
-                            onDeselectOne?.(customer.id);
+                            onDeselectOne?.(student.id);
                           }
                         }}
                       />
@@ -103,25 +111,41 @@ export const StudentsTable = (props) => {
                         direction="row"
                         spacing={2}
                       >
-                        <Avatar src={customer.avatar}>
-                          {getInitials(customer.name)}
+                        <Avatar src={student.avatar}>
+                          {getInitials(student.name)}
                         </Avatar>
                         <Typography variant="subtitle2">
-                          {customer.name}
+                          {student.name}
                         </Typography>
                       </Stack>
                     </TableCell>
                     <TableCell>
-                      {customer.email}
+                      {student.registration}
                     </TableCell>
                     <TableCell>
-                      {customer.address.city}, {customer.address.state}, {customer.address.country}
+                      {student.class.name}
                     </TableCell>
                     <TableCell>
-                      {customer.phone}
+                      {student.course.name}
                     </TableCell>
                     <TableCell>
-                      {createdAt}
+                      <Link
+                        href={{
+                          pathname: '/instituicoes/[institutionId]/estudantes/[studentId]',
+                          query: { institutionId: 40, studentId: student.id },
+                        }}
+                      >
+                        <div>
+                          <IconButton
+                            aria-label="edit"
+                          >
+                            <ModeEditOutlineOutlinedIcon />
+                          </IconButton>
+                          <IconButton aria-label="delete">
+                            <DeleteOutlinedIcon />
+                          </IconButton>
+                        </div>
+                      </Link>
                     </TableCell>
                   </TableRow>
                 );

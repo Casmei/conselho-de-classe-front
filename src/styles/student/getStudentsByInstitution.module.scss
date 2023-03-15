@@ -1,0 +1,6 @@
+@import '../_variables.scss';
+
+.table {
+  margin-inline: calc((100vw - $sidebar-width) * 0.05);
+  margin-top: 3rem;
+}

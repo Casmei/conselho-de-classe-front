@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -20,6 +21,8 @@ export const StudentProfileDetails = () => {
     class: 'ADS2021',
   });
 
+  const [isDisabled, setIsDisabled] = useState(true)
+
   const handleChange = useCallback(
     (event) => {
       setValues((prevState) => ({
@@ -37,6 +40,18 @@ export const StudentProfileDetails = () => {
     []
   );
 
+  const handleEditableField = () => {
+    setIsDisabled(false)
+
+    if (!isDisabled) {
+      handleSubmitForm()
+    }
+  }
+
+  const handleSubmitForm = () => {
+    console.log('Realiza uma requisição para minha api')
+  }
+
   return (
     <form
       autoComplete="off"
@@ -46,7 +61,7 @@ export const StudentProfileDetails = () => {
       <Card>
         <CardHeader
           subheader="As informações podem ser editadas"
-          title="Estudante"
+          title="Aluno"
         />
         <CardContent sx={{ pt: 0 }}>
           <Box sx={{ m: -1.5 }}>
@@ -64,6 +79,7 @@ export const StudentProfileDetails = () => {
                   name="name"
                   onChange={handleChange}
                   required
+                  disabled={isDisabled ? true : false}
                   value={values.name}
                 />
               </Grid>
@@ -77,6 +93,7 @@ export const StudentProfileDetails = () => {
                   name="registration"
                   onChange={handleChange}
                   required
+                  disabled={isDisabled ? true : false}
                   type="number"
                   value={values.registration}
                 />
@@ -92,6 +109,8 @@ export const StudentProfileDetails = () => {
                   onChange={handleChange}
                   type="number"
                   required
+                  disabled={isDisabled ? true : false}
+
                   value={values.contract}
                 />
               </Grid>
@@ -105,6 +124,8 @@ export const StudentProfileDetails = () => {
                   name="course"
                   onChange={handleChange}
                   type="string"
+                  disabled={isDisabled ? true : false}
+                  required
                   value={values.course}
                 />
               </Grid>
@@ -118,6 +139,7 @@ export const StudentProfileDetails = () => {
                   name="class"
                   onChange={handleChange}
                   required
+                  disabled={isDisabled ? true : false}
                   value={values.class}
                 />
               </Grid>
@@ -126,8 +148,10 @@ export const StudentProfileDetails = () => {
         </CardContent>
         <Divider />
         <CardActions sx={{ justifyContent: 'flex-end' }}>
-          <Button variant="contained">
-            Salvar
+          <Button variant="contained"
+            onClick={handleEditableField}
+          >
+            {isDisabled ? 'Editar' : 'Salvar'}
           </Button>
         </CardActions>
       </Card>
