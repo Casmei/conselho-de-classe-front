@@ -141,7 +141,7 @@ const Page = () => {
               </Stack>
               <div>
                 <Button
-                  onClick={() => {router.push('/turmas/criar')}}
+                  onClick={() => {router.push('/instituicoes/40/turmas/criar')}}
                   startIcon={(
                     <SvgIcon fontSize="small">
                       <PlusIcon />

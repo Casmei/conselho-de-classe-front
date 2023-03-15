@@ -12,7 +12,7 @@ import { SvgIcon } from '@mui/material';
 
 export const items = [
   {
-    title: 'Overview',
+    title: 'Conselho de Classe - [WIP]',
     path: '/',
     icon: (
       <SvgIcon fontSize="small">
@@ -21,7 +21,7 @@ export const items = [
     )
   },
   {
-    title: 'Customers',
+    title: 'Usuários - [WIP]',
     path: '/customers',
     icon: (
       <SvgIcon fontSize="small">
@@ -30,7 +30,7 @@ export const items = [
     )
   },
   {
-    title: 'Companies',
+    title: 'Disciplinas - [WIP]',
     path: '/companies',
     icon: (
       <SvgIcon fontSize="small">
@@ -39,7 +39,7 @@ export const items = [
     )
   },
   {
-    title: 'Account',
+    title: 'Conta - [WIP]',
     path: '/account',
     icon: (
       <SvgIcon fontSize="small">
@@ -48,7 +48,7 @@ export const items = [
     )
   },
   {
-    title: 'Settings',
+    title: 'Configurações - [WIP]',
     path: '/settings',
     icon: (
       <SvgIcon fontSize="small">
@@ -56,33 +56,33 @@ export const items = [
       </SvgIcon>
     )
   },
-  {
-    title: 'Login',
-    path: '/auth/login',
-    icon: (
-      <SvgIcon fontSize="small">
-        <LockClosedIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Register',
-    path: '/auth/register',
-    icon: (
-      <SvgIcon fontSize="small">
-        <UserPlusIcon />
-      </SvgIcon>
-    )
-  },
-  {
-    title: 'Error',
-    path: '/404',
-    icon: (
-      <SvgIcon fontSize="small">
-        <XCircleIcon />
-      </SvgIcon>
-    )
-  },
+  // {
+  //   title: 'Login',
+  //   path: '/auth/login',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <LockClosedIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+  // {
+  //   title: 'Register',
+  //   path: '/auth/register',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <UserPlusIcon />
+  //     </SvgIcon>
+  //   )
+  // },
+  // {
+  //   title: 'Error',
+  //   path: '/404',
+  //   icon: (
+  //     <SvgIcon fontSize="small">
+  //       <XCircleIcon />
+  //     </SvgIcon>
+  //   )
+  // },
   {
     title: 'Estudante',
     path: '/instituicoes/40/estudantes',
@@ -94,7 +94,7 @@ export const items = [
   },
   {
     title: 'Turma',
-    path: '/turmas',
+    path: '/instituicoes/40/turmas',
     icon: (
       <SvgIcon fontSize="small">
         <ClassIcon />

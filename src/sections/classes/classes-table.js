@@ -24,6 +24,7 @@ import {getInitials} from '../../utils/get-initials'
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 
 export const ClassesTable = (props) => {
@@ -104,17 +105,21 @@ export const ClassesTable = (props) => {
                       </Typography>
                     </TableCell>
                     <TableCell>
+                      <Link
+                        href={{
+                          pathname: '/instituicoes/[institutionId]/turmas/[classId]',
+                          query: { institutionId: 40, classId: uniqueClass.id },
+                        }}
+                      >
                         <IconButton
                           aria-label="edit"
-                          onClick={() => {
-                            route.push('/turmas/editar')
-                          }}
                         >
                           <ModeEditOutlineOutlinedIcon />
                         </IconButton>
-                        <IconButton aria-label="delete">
-                          <DeleteOutlinedIcon />
-                        </IconButton>
+                      </Link>
+                      <IconButton aria-label="delete">
+                        <DeleteOutlinedIcon />
+                      </IconButton>
                     </TableCell>
                   </TableRow>
                 );
