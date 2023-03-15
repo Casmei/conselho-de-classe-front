@@ -5,7 +5,7 @@
       "updatedAt": "2023-03-12T01:00:05.979Z",
       "deletedAt": null,
       "id": "082742f3-5a73-4d6b-86ca-5c36b0c56f50",
-      "name": "Georgi",
+      "name": "Georgi Castro",
       "registration": "851",
       "contract": "90",
       "class": {
@@ -160,6 +160,14 @@
         "id": "b5613b09-8a55-43c4-821b-7195af7cacf8",
         "name": "Análise e Desenvolvimento de Sistemas"
       }
+    },
+    {
+      "name": "Tiago",
+      "registration": "1245",
+      "class": "a76ed6a2-898e-4b19-93fa-fd8a3c021972",
+      "course": "3e49f80d-a08b-4ff6-be7b-c8d6333d22f0",
+      "institutionId": "40",
+      "id": "kDgK5Fk"
     }
   ],
   "classes": [

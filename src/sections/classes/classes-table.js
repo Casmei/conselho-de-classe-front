@@ -23,10 +23,11 @@ import {getInitials} from '../../utils/get-initials'
 
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 
-export const StudentsTable = (props) => {
+export const ClassesTable = (props) => {
   const {
     count = 0,
     items = [],
@@ -42,6 +43,8 @@ export const StudentsTable = (props) => {
   } = props;
 
   console.log(items)
+
+  const route = useRouter()
 
   const selectedSome = (selected.length > 0) && (selected.length < items.length);
   const selectedAll = (items.length > 0) && (selected.length === items.length);
@@ -66,17 +69,8 @@ export const StudentsTable = (props) => {
                     }}
                   />
                 </TableCell>
-                <TableCell>
+                <TableCell >
                   Nome
-                </TableCell>
-                <TableCell>
-                  Registro
-                </TableCell>
-                <TableCell>
-                  Turma
-                </TableCell>
-                <TableCell>
-                  Curso
                 </TableCell>
                 <TableCell>
                   Ações
@@ -84,13 +78,13 @@ export const StudentsTable = (props) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {items.map((student) => {
-                const isSelected = selected.includes(student.id);
+              {items.map((uniqueClass) => {
+                const isSelected = selected.includes(uniqueClass.id);
 
                 return (
                   <TableRow
                     hover
-                    key={student.id}
+                    key={uniqueClass.id}
                     selected={isSelected}
                   >
                     <TableCell padding="checkbox">
@@ -98,54 +92,34 @@ export const StudentsTable = (props) => {
                         checked={isSelected}
                         onChange={(event) => {
                           if (event.target.checked) {
-                            onSelectOne?.(student.id);
+                            onSelectOne?.(uniqueClass.id);
                           } else {
-                            onDeselectOne?.(student.id);
+                            onDeselectOne?.(uniqueClass.id);
                           }
                         }}
                       />
                     </TableCell>
                     <TableCell>
-                      <Stack
-                        alignItems="center"
-                        direction="row"
-                        spacing={2}
-                      >
-                        <Avatar src={student.avatar}>
-                          {getInitials(student.name)}
-                        </Avatar>
-                        <Typography variant="subtitle2">
-                          {student.name}
-                        </Typography>
-                      </Stack>
-                    </TableCell>
-                    <TableCell>
-                      {student.registration}
-                    </TableCell>
-                    <TableCell>
-                      {student.class.name}
-                    </TableCell>
-                    <TableCell>
-                      {student.course.name}
+                      <Typography variant="subtitle2">
+                        {uniqueClass.name}
+                      </Typography>
                     </TableCell>
                     <TableCell>
                       <Link
                         href={{
-                          pathname: '/instituicoes/[institutionId]/estudantes/[studentId]',
-                          query: { institutionId: 40, studentId: student.id },
+                          pathname: '/instituicoes/[institutionId]/turmas/[classId]',
+                          query: { institutionId: 40, classId: uniqueClass.id },
                         }}
                       >
-                        <div>
-                          <IconButton
-                            aria-label="edit"
-                          >
-                            <ModeEditOutlineOutlinedIcon />
-                          </IconButton>
-                          <IconButton aria-label="delete">
-                            <DeleteOutlinedIcon />
-                          </IconButton>
-                        </div>
+                        <IconButton
+                          aria-label="edit"
+                        >
+                          <ModeEditOutlineOutlinedIcon />
+                        </IconButton>
                       </Link>
+                      <IconButton aria-label="delete">
+                        <DeleteOutlinedIcon />
+                      </IconButton>
                     </TableCell>
                   </TableRow>
                 );
@@ -167,7 +141,7 @@ export const StudentsTable = (props) => {
   );
 };
 
-StudentsTable.propTypes = {
+ClassesTable.propTypes = {
   count: PropTypes.number,
   items: PropTypes.array,
   onDeselectAll: PropTypes.func,

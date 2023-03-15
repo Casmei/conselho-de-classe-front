@@ -13,7 +13,9 @@ const user = {
   name: 'Patrick Barbacena Lopes',
 };
 
-export const StudentProfile = () => (
+import { getInitials } from 'src/utils/get-initials';
+
+export const StudentProfile = ({data}) => (
   <>
       <Box
         sx={{
@@ -23,13 +25,14 @@ export const StudentProfile = () => (
         }}
       >
         <Avatar
-          src={user.avatar}
           sx={{
             height: 80,
             mr: 2,
             width: 80
           }}
-        />
+        >
+          {getInitials(data.name)}
+        </Avatar>
         <Box
           sx={{
             display: 'flex',
@@ -40,13 +43,13 @@ export const StudentProfile = () => (
             gutterBottom
             variant="h4"
           >
-            {user.name}
+            {data.name}
           </Typography>
           <Box>
           <Typography
             style={{fontSize: 14, fontWeight: 500}}
           >
-            user_id: <Chip label="5e86805e2bafd54f66cc95c3"
+            user_id: <Chip label={data.id}
 size='small' />
           </Typography>
           </Box>
