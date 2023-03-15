@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import { Box, Container, Divider, Stack, Typography, Unstable_Grid2 as Grid } from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
-import { StudentProfile } from 'src/sections/students/student-profile';
 import { ClassProfileForm } from 'src/sections/classes/classes-profile-form';
 
 const Page = () => (

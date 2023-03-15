@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Box, Container, Divider, Stack, Typography, Unstable_Grid2 as Grid } from '@mui/material';
+import { Box, Container, Stack, Typography} from '@mui/material';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { ClassProfileForm } from 'src/sections/classes/classes-profile-form';
 
@@ -25,13 +25,11 @@ const Page = () => (
             </Typography>
           </div>
           <div>
-                <ClassProfileForm
-                  title={'Formulário'}
-                  subheader={'Crie um nova turma'}
-                  method={'PATCH'}
-
-                />
-
+            <ClassProfileForm
+              title={'Formulário'}
+              subheader={'Crie um nova turma'}
+              method={'PATCH'}
+            />
           </div>
         </Stack>
       </Container>

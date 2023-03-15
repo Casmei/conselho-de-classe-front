@@ -54,7 +54,7 @@ export const ClassesTable = (props) => {
         <Box sx={{ minWidth: 800 }}>
           <Table>
             <TableHead>
-              <TableRow>
+              <TableRow >
                 <TableCell padding="checkbox">
                   <Checkbox
                     checked={selectedAll}

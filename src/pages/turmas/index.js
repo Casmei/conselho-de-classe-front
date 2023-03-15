@@ -1,14 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Head from 'next/head';
-import ArrowDownOnSquareIcon from '@heroicons/react/24/solid/ArrowDownOnSquareIcon';
-import ArrowUpOnSquareIcon from '@heroicons/react/24/solid/ArrowUpOnSquareIcon';
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
-import { Box, Button, Container, Grid, Modal, Stack, SvgIcon, Typography } from '@mui/material';
+import { Box, Button, Container, Stack, SvgIcon, Typography } from '@mui/material';
 import { useSelection } from 'src/hooks/use-selection';
 import { Layout as DashboardLayout } from 'src/layouts/dashboard/layout';
 import { applyPagination } from 'src/utils/apply-pagination';
-import { ClassesTable } from 'src/sections/classes/classses-table';
-import { StudentProfileDetails } from 'src/components/ProfileDetails/StudentProfileDetails';
+import { ClassesTable } from 'src/sections/classes/classes-table';
 import { useRouter } from 'next/navigation';
 import { ApiService } from 'src/service/Api';
 
@@ -46,7 +43,6 @@ const Page = () => {
   useEffect(() => {
     ApiService.get(`/institutions/${institutionId}/classes`)
       .then((response) => {setData(response.data)})
-      console.log(data);
   }, [])
 
   const handlePageChange = useCallback(
