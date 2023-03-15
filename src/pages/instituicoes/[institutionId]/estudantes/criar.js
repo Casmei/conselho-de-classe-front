@@ -46,6 +46,3 @@ Page.getLayout = (page) => (
 );
 
 export default Page;
-
-
-  // "/institutions/:id/:resource/*": "/$1",
