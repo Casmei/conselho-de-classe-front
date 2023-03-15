@@ -37,6 +37,8 @@ export const AuthGuard = (props) => {
           .catch(console.error);
       } else {
         setChecked(true);
+        console.log('authenticated, redirecting');
+
       }
     },
     [router.isReady]
