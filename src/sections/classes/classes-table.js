@@ -54,7 +54,7 @@ export const ClassesTable = (props) => {
         <Box sx={{ minWidth: 800 }}>
           <Table>
             <TableHead>
-              <TableRow >
+              <TableRow>
                 <TableCell padding="checkbox">
                   <Checkbox
                     checked={selectedAll}
@@ -68,8 +68,11 @@ export const ClassesTable = (props) => {
                     }}
                   />
                 </TableCell>
-                <TableCell>
+                <TableCell >
                   Nome
+                </TableCell>
+                <TableCell>
+                  Ações
                 </TableCell>
               </TableRow>
             </TableHead>
@@ -101,7 +104,6 @@ export const ClassesTable = (props) => {
                       </Typography>
                     </TableCell>
                     <TableCell>
-                      <div>
                         <IconButton
                           aria-label="edit"
                           onClick={() => {
@@ -113,7 +115,6 @@ export const ClassesTable = (props) => {
                         <IconButton aria-label="delete">
                           <DeleteOutlinedIcon />
                         </IconButton>
-                      </div>
                     </TableCell>
                   </TableRow>
                 );

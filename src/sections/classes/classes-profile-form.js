@@ -1,4 +1,3 @@
-import { useCallback, useEffect, useState } from 'react';
 import {
   Box,
   Button,
@@ -11,7 +10,6 @@ import {
   TextField,
   Unstable_Grid2 as Grid
 } from '@mui/material';
-import { ApiService } from 'src/service/Api';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
@@ -60,7 +58,6 @@ export const ClassProfileForm = ({title, subheader, method}) => {
             >
               <Grid
                 xs={12}
-                md={8}
               >
                 <TextField
                   fullWidth
