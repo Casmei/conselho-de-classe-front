@@ -48,6 +48,26 @@ const Page = () => {
       .then((response) => {setData(response.data)})
   }, [])
 
+  const handleFileUpload = (e) => {
+    if(!e.target.files) {
+      return;
+    }
+
+    const file = e.target.files[0];
+
+
+    try {
+      ApiService.post(`/institutions/${institutionId}/students`, file, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      router.refresh()
+    } catch (error) {
+      
+    }
+  }
+
   const handlePageChange = useCallback(
     (event, value) => {
       setPage(value);
@@ -93,8 +113,8 @@ const Page = () => {
                   spacing={1}
                 >
                   <Button
-                    disabled
                     color="inherit"
+                    component="label"
                     startIcon={(
                       <SvgIcon fontSize="small">
                         <ArrowUpOnSquareIcon />
@@ -102,9 +122,15 @@ const Page = () => {
                     )}
                   >
                     Importar
-                  </Button>
-
+                    <input
+                      type="file"
+                      accept=".csv"
+                      hidden
+                      onChange={handleFileUpload}
+                    />
+                  </Button> 
                   <Button
+                    disabled
                     color="inherit"
                     type=''
                     startIcon={(
@@ -114,7 +140,7 @@ const Page = () => {
                       </SvgIcon>
                     )}
                   >
-                    Exportar
+                   Exportar
                   </Button>
                 </Stack>
               </Stack>
