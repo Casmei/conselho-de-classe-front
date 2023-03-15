@@ -11,7 +11,8 @@
     "start": "next start",
     "export": "next export",
     "lint": "next lint",
-    "lint-fix": "next lint --fix"
+    "lint-fix": "next lint --fix",
+    "serve": "json-server --watch server.json --routes routes.json"
   },
   "dependencies": {
     "@emotion/cache": "11.10.5",

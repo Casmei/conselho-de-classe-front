@@ -113,7 +113,6 @@ export const SideNav = (props) => {
           >
             {items.map((item) => {
               const active = item.path ? (pathname === item.path) : false;
-
               return (
                 <SideNavItem
                   active={active}
@@ -123,7 +122,7 @@ export const SideNav = (props) => {
                   key={item.title}
                   path={item.path}
                   title={item.title}
-                  dropdown={item.dropdown}
+                  accordion={item.accordion ?? false}
                 />
               );
             })}
@@ -139,7 +138,7 @@ export const SideNav = (props) => {
             )}
             variant="contained"
           >
-            Adicionar Gestor
+            Adicionar Usuário
           </Button>
         </div>
       </Box>
