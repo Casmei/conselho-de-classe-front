@@ -1,5 +1,8 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { ApiService } from 'src/service/Api';
+import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -63,6 +66,7 @@ export const AuthProvider = (props) => {
   const { children } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
   const initialized = useRef(false);
+  const router = useRouter();
 
   const initialize = async () => {
     // Prevent from calling twice in development mode with React.StrictMode enabled
@@ -128,26 +132,32 @@ export const AuthProvider = (props) => {
   };
 
   const signIn = async (email, password) => {
-    if (email !== 'demo@devias.io' || password !== 'Password123!') {
-      throw new Error('Please check your email and password');
-    }
+    const token = await ApiService.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, {
+      email, password
+    })
+      .then(response => response.data.access_token)
+      .catch(err => console.log(err.message));
 
-    try {
-      window.sessionStorage.setItem('authenticated', 'true');
-    } catch (err) {
-      console.error(err);
+    if (!token) {
+      throw new Error('Usuário não encontrado');
     }
+    console.log('Token: ' + token);
 
-    const user = {
-      id: '5e86809283e28b96d2d38537',
-      avatar: '/assets/avatars/avatar-anika-visser.png',
-      name: 'Anika Visser',
-      email: 'anika.visser@devias.io'
-    };
+    Cookies.set('JwtToken', JSON.stringify(token), { expires: 365 });
+
+    const userPayload = await ApiService.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/me`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(response => response.data)
+      .catch(err => console.log(err.message));
+
+    console.table(userPayload);
 
     dispatch({
       type: HANDLERS.SIGN_IN,
-      payload: user
+      payload: userPayload
     });
   };
 
@@ -156,9 +166,12 @@ export const AuthProvider = (props) => {
   };
 
   const signOut = () => {
+    Cookies.remove('JwtToken');
+
     dispatch({
       type: HANDLERS.SIGN_OUT
-    });
+    });    
+    router.push('/auth/login');
   };
 
   return (
