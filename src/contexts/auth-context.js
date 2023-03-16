@@ -1,8 +1,7 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { ApiService } from 'src/service/Api';
-import { useRouter } from 'next/router';
-import Cookies from 'js-cookie';
+import { useApi } from 'src/service/Api';
+import Router from 'next/router';
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
@@ -66,7 +65,7 @@ export const AuthProvider = (props) => {
   const { children } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
   const initialized = useRef(false);
-  const router = useRouter();
+  const { login, loggedUser, register } = useApi()
 
   const initialize = async () => {
     // Prevent from calling twice in development mode with React.StrictMode enabled
@@ -132,37 +131,17 @@ export const AuthProvider = (props) => {
   };
 
   const signIn = async (email, password) => {
-    const token = await ApiService.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, {
-      email, password
-    })
-      .then(response => response.data.access_token)
-      .catch(err => console.log(err.message));
-
-    if (!token) {
-      throw new Error('Usuário não encontrado');
-    }
-    console.log('Token: ' + token);
-
-    Cookies.set('JwtToken', JSON.stringify(token), { expires: 365 });
-
-    const userPayload = await ApiService.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/me`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-      .then(response => response.data)
-      .catch(err => console.log(err.message));
-
-    console.table(userPayload);
-
-    dispatch({
-      type: HANDLERS.SIGN_IN,
-      payload: userPayload
-    });
+  
   };
 
-  const signUp = async (email, name, password) => {
-    throw new Error('Sign up is not implemented');
+  const signUp = async (name, email, password) => {
+    try {
+      await register(name, email, password)
+      return console.log('usuario cadastrado')
+    } catch(err) {
+      console.log(err)
+      throw err
+    }
   };
 
   const signOut = () => {
