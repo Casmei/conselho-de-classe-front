@@ -21,14 +21,17 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 import { useApi } from '../../service/Api';
+import AddIcon from '@mui/icons-material/Add';
+import { useAuthContext } from 'src/contexts/auth-context';
 
 const Page = () => {
   const router = useRouter();
-  const [institutions, setInstitutions] = useState([]);
+  const [institutions, setInstitutions] = useState(null);
   const [message, setMessage] = useState(false);
   const auth = useAuth();
   const [method, setMethod] = useState('email');
   const ApiService = useApi();
+  const context = useAuthContext();
   const formik = useFormik({
     initialValues: {
       email: 'matheus@protonmail.com',
@@ -58,7 +61,6 @@ const Page = () => {
       }
     }
   });
-  console.log(institutions);
   
   const handleMethodChange = useCallback(
     (event, value) => {
@@ -79,7 +81,7 @@ const Page = () => {
           backgroundColor: 'background.paper',
           flex: '1 1 auto',
           alignItems: 'center',
-          display: institutions.length === 0 ? 'flex' : 'none',
+          display: institutions === null ? 'flex' : 'none',
           justifyContent: 'center'
         }}
       >
@@ -207,28 +209,76 @@ const Page = () => {
           </div>
         </Box>
       </Box>
-      {institutions.length !== 0 && (
-        <Box>
-          <DataGrid
-            rows={
-              institutions.map(institution => (
-                { id: institution.id, name: institution.name, owner: institution.userOwner.name }
-              ))
-            }
-            columns={[
-              { field: 'name', headerName: 'Nome', width: 600 },
-              { field: 'owner', headerName: 'Gestor', width: 300 }
-            ]}
-            getRowId={row => row.id}
-            checkboxSelection
-            onSelectionModelChanges={item => console.log(item)}
-            sx={{
-              marginInline: 'auto',
-              marginTop: '8em'
+      {institutions !== null && (
+        institutions.length ? (
+          <Box>
+            <DataGrid
+              rows={
+                institutions ? institutions.map(institution => (
+                  { id: institution.id, name: institution.name, owner: institution.userOwner.name }
+                )) : {}
+              }
+              columns={[
+                { field: 'name', headerName: 'Nome', width: 600 },
+                { field: 'owner', headerName: 'Gestor', width: 300 }
+              ]}
+              getRowId={row => row?.id}
+              checkboxSelection
+              onRowSelectionModelChange={item => {
+                item.length >= 1 ?
+                  context.setUserPayload(item[0]) :
+                  setMessage(true);
+              }}
+              sx={{
+                marginInline: 'auto',
+                marginTop: '8em'
+              }}
+            />
+            <p style={{ display: message ? 'inline' : 'none' }} >Selecione apenas uma Instituição</p>
+          </Box>
+        ) : (
+          <Box
+            sx={{ 
+              display: 'flex',
+              flexDirection: 'column',
+              width: '50vw',
+              mt: '12rem'
             }}
-          />
-          <p style={{ display: message ? 'inline' : 'none' }} >Selecione apenas uma Instituição</p>
-        </Box>
+          >
+            <Box
+              sx={{ 
+                width: 'inherit',
+                display: 'flex',
+                justifyContent: 'end'
+              }}
+            >
+              <Button
+                sx={{ 
+                  backgroundColor: '#e8eaf6',
+                  borderRadius: '20px',
+                  width: '12rem',
+                  mb: '3em',
+                  mr: '2em'
+                }}
+              >
+                Entrar com Código
+              </Button>
+            </Box>
+            <Button
+              fullWidth
+              size="large"
+              sx={{
+                mt: 3,
+                width: '20rem',
+                margin: 'auto',
+              }}
+              variant="contained"
+            >
+              <AddIcon />
+              Cadastrar Instituição
+            </Button>
+          </Box>
+        )
       )}
     </>
   );

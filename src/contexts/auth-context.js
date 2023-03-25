@@ -2,12 +2,13 @@ import { createContext, useContext, useEffect, useReducer, useRef } from 'react'
 import PropTypes from 'prop-types';
 import { useApi } from 'src/service/Api';
 import Cookies from 'js-cookie'
-import Router from 'next/router';
+import Router, { useRouter } from 'next/router';
 
 const HANDLERS = {
   INITIALIZE: 'INITIALIZE',
   SIGN_IN: 'SIGN_IN',
-  SIGN_OUT: 'SIGN_OUT'
+  SIGN_OUT: 'SIGN_OUT',
+  USER_INSTANCE_PAYLOAD: 'USER_INSTANCE_PAYLOAD'
 };
 
 const initialState = {
@@ -51,6 +52,17 @@ const handlers = {
       isAuthenticated: false,
       user: null
     };
+  },
+  [HANDLERS.USER_INSTANCE_PAYLOAD]: (state, action) => {
+    const user = action.payload.user;
+    const instanceId = action.payload.instanceId;
+
+    return {
+      ...state,
+      isAuthenticated: true,
+      user: user,
+      instance: instanceId
+    }
   }
 };
 
@@ -63,6 +75,7 @@ const reducer = (state, action) => (
 export const AuthContext = createContext({ undefined });
 
 export const AuthProvider = (props) => {
+  const router = useRouter();
   const { children } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
   const initialized = useRef(false);
@@ -164,6 +177,20 @@ export const AuthProvider = (props) => {
     router.push('/auth/login');
   };
 
+  const setUserPayload = instanceId => {
+    const user = loggedUser(Cookies.get('Token'));
+
+    dispatch({
+      type: HANDLERS.USER_INSTANCE_PAYLOAD,
+      payload: {
+        user,
+        instanceId
+      }
+    });
+
+    router.push('/');
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -171,7 +198,8 @@ export const AuthProvider = (props) => {
         skip,
         signIn,
         signUp,
-        signOut
+        signOut,
+        setUserPayload
       }}
     >
       {children}

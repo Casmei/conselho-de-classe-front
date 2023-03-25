@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 const skipRoutes = ['/auth/login', '/auth/register'];
 
 export async function middleware(request) {
-  const token = request.cookies.get('JwtToken')?.value;
+  const token = request.cookies.get('Token')?.value;
   console.log(request.nextUrl.pathname);
 
   if (!skipRoutes.includes(request.nextUrl.pathname) && !token && !request.nextUrl.pathname.startsWith('/_next/')) {
