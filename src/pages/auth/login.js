@@ -10,20 +10,25 @@ import {
   Button,
   FormHelperText,
   Link,
-  Modal,
   Stack,
   Tab,
   Tabs,
   TextField,
-  Typography
+  Typography,
+  Radio
 } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
+import { useApi } from '../../service/Api';
 
 const Page = () => {
   const router = useRouter();
+  const [institutions, setInstitutions] = useState([]);
+  const [message, setMessage] = useState(false);
   const auth = useAuth();
   const [method, setMethod] = useState('email');
+  const ApiService = useApi();
   const formik = useFormik({
     initialValues: {
       email: 'matheus@protonmail.com',
@@ -44,6 +49,8 @@ const Page = () => {
     onSubmit: async (values, helpers) => {
       try {
         await auth.signIn(values.email, values.password);
+        ApiService.getInstitutions()
+          .then(res => setInstitutions(res));
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
@@ -51,7 +58,8 @@ const Page = () => {
       }
     }
   });
-
+  console.log(institutions);
+  
   const handleMethodChange = useCallback(
     (event, value) => {
       setMethod(value);
@@ -63,7 +71,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Login | Devias Kit
+          Login
         </title>
       </Head>
       <Box
@@ -71,7 +79,7 @@ const Page = () => {
           backgroundColor: 'background.paper',
           flex: '1 1 auto',
           alignItems: 'center',
-          display: 'flex',
+          display: institutions.length === 0 ? 'flex' : 'none',
           justifyContent: 'center'
         }}
       >
@@ -198,10 +206,30 @@ const Page = () => {
             )}
           </div>
         </Box>
-
       </Box>
-
-
+      {institutions.length !== 0 && (
+        <Box>
+          <DataGrid
+            rows={
+              institutions.map(institution => (
+                { id: institution.id, name: institution.name, owner: institution.userOwner.name }
+              ))
+            }
+            columns={[
+              { field: 'name', headerName: 'Nome', width: 600 },
+              { field: 'owner', headerName: 'Gestor', width: 300 }
+            ]}
+            getRowId={row => row.id}
+            checkboxSelection
+            onSelectionModelChanges={item => console.log(item)}
+            sx={{
+              marginInline: 'auto',
+              marginTop: '8em'
+            }}
+          />
+          <p style={{ display: message ? 'inline' : 'none' }} >Selecione apenas uma Instituição</p>
+        </Box>
+      )}
     </>
   );
 };

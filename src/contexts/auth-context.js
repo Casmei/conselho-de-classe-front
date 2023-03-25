@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useApi } from 'src/service/Api';
+import Cookies from 'js-cookie'
 import Router from 'next/router';
 
 const HANDLERS = {
@@ -131,7 +132,17 @@ export const AuthProvider = (props) => {
   };
 
   const signIn = async (email, password) => {
-  
+    try {
+      const token = await login(email, password)
+        .then(res => res.access_token);
+      if (Cookies.get('Token')) {
+        Cookies.remove('Token');
+      }
+      Cookies.set('Token', token, { expires: 365 });
+    } catch (err) {
+      console.log(err.message);
+      throw err;
+    }
   };
 
   const signUp = async (name, email, password) => {

@@ -1,8 +1,11 @@
 import axios from "axios"
+import Cookies from 'js-cookie'
 
+const token = Cookies.get('Token');
 
 export const ApiService = axios.create({
-	baseURL: 'https://conselho-service.onrender.com'
+	// baseURL: 'https://conselho-service.onrender.com'
+  baseURL: 'http://localhost:3000'
 })
 
 export const useApi = () => ({
@@ -17,5 +20,14 @@ export const useApi = () => ({
 	register: async (name, email, password) => {
 		const response = await ApiService.post('/auth/register', { name, email, password });
 		return response.data;
-	}
+	},
+  getInstitutions: async () => {
+    const response = await ApiService.get('/institutions', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    return response.data;
+  }
 })
