@@ -8,7 +8,6 @@ import {
   CardHeader,
   Divider,
   MenuItem,
-  TextareaAutosize,
   TextField,
   Unstable_Grid2 as Grid
 } from '@mui/material';
@@ -53,7 +52,7 @@ export const StudentProfileForm = ({title, subheader, method}) => {
         //     router.back()
         //   })
         // }
-        router.push('/instituicoes/40/estudantes');
+        // router.push('/instituicoes/40/estudantes');
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });
@@ -171,24 +170,86 @@ export const StudentProfileForm = ({title, subheader, method}) => {
               container
               spacing={3}
             >
+              <Grid
+                xs={12}
+                md={8}
+              >
+                <TextField
+                  fullWidth
+                  error={!!(formik.touched.name && formik.errors.name)}
+                  label="Nome Completo"
+                  name="name"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  required
+                  value={formik.values.name}
+                />
+              </Grid>
             {method == 'POST' &&
               <>
                 <Grid
-                xs={12}
-                md={8}
+                  xs={12}
+                  md={4}
                 >
-                  {/* add uma textarea */}
                   <TextField
                     fullWidth
-                    min
-                    error={!!(formik.touched.name && formik.errors.name)}
-                    label="Nova nota"
-                    name="note"
+                    label="Número de registro"
+                    error={!!(formik.touched.registration && formik.errors.registration)}
+                    name="registration"
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     required
-                    value={formik.values.name}
+                    value={formik.values.registration}
                   />
+                </Grid>
+                <Grid
+                  xs={12}
+                  md={6}
+                >
+                  <TextField
+                    label="Curso"
+                    name="course"
+                    error={!!(formik.touched.course && formik.errors.course)}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    select
+                    fullWidth
+                    helperText="Selecione o curso que o aluno realiza"
+                  >
+                    {courses.map(option => (
+                      <MenuItem 
+                        key={option.id}
+                        value={option.id}
+                      >
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+
+                </Grid>
+                <Grid
+                  xs={12}
+                  md={6}
+                >
+                  <TextField
+                    label="Turma"
+                    name="class"
+                    error={!!(formik.touched.class && formik.errors.class)}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    select
+                    fullWidth
+                    helperText="Selecione a turma que o aluno participa"
+                  >
+                    {classes.map(option => (
+                      <MenuItem 
+                        key={option.id}
+                        value={option.id}
+                      >
+                        {option.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
                 </Grid>
               </>
             }

@@ -9,6 +9,7 @@ import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
 import FaceIcon from '@mui/icons-material/Face';
 import ClassIcon from '@mui/icons-material/Class';
 import { SvgIcon } from '@mui/material';
+import { School } from '@mui/icons-material';
 
 export const items = [
   {
@@ -30,11 +31,11 @@ export const items = [
     )
   },
   {
-    title: 'Disciplinas - [WIP]',
-    path: '/companies',
+    title: 'Minhas Turmas',
+    path: '/instituicoes/40/minhas-turmas',
     icon: (
       <SvgIcon fontSize="small">
-        <ShoppingBagIcon />
+        <School />
       </SvgIcon>
     )
   },
