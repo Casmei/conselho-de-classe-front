@@ -145,6 +145,7 @@ export const InviteCard = () => {
                   onBlur={formik.handleBlur}
                   required
                   value={formik.values.name}
+                  helperText={formik.errors.name}
                 />
               </Grid>
               <Grid
@@ -160,6 +161,7 @@ export const InviteCard = () => {
                   onBlur={formik.handleBlur}
                   required
                   value={formik.values.email}
+                  helperText={formik.errors.email}
                 />
               </Grid>
               <Grid
