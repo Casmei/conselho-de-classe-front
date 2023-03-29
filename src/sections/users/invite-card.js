@@ -8,7 +8,6 @@ import {
   CardHeader,
   Divider,
   TextField,
-  OutlinedInput,
   Select,
   MenuItem,
   Chip,
@@ -69,7 +68,6 @@ const subjects = [
     nome: "materia 8"
   }
 ]
-
 const cargos = [
   {
     value: 'MANAGER',
@@ -95,15 +93,13 @@ export const InviteCard = () => {
       name: string().required("Escreva o primeiro nome do usuário"),
       email: string().email("O email informado deve ser valido").required("É necessário informar o email do usuário"),
       role: mixed().oneOf(['MANAGER', "TEACHER"], "Selecione um cargo para o usuário").required(),
-      classes: string().when("role", (role, schema) => {
-        if (role == "TEACHER")
-          return schema.required("É necessário selecionar uma turma para o professor.")
-        return schema
+      classes: array().when('role', {
+        is: (role) => role == "TEACHER",
+        then: (schema) => schema.min(1).required("É necessário selecionar uma turma para o professor."),
       }),
-      subject: array(string()).when("role", (role, schema) => {
-        if (role == "TEACHER")
-          return schema.required("É necessario selecionar uma matéria para o professor.")
-        return schema
+      subjects: array().when('role', {
+        is: (role) => role == "TEACHER",
+        then: (schema) => schema.min(1).required("É necessário selecionar uma matéria para o professor."),
       }),
     }),
     onSubmit: async (values, helpers) => {
@@ -118,28 +114,9 @@ export const InviteCard = () => {
     }
   });
 
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: 48 * 4.5 + 8,
-        width: 250,
-      },
-    },
-  };
+  console.log(formik.values)
+  console.log(formik.errors)
 
-
-  const [personName, setPersonName] = useState([]);
-
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    console.log(value)
-    setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
-  }
   return (
     <form
       autoComplete="off"
@@ -211,61 +188,72 @@ export const InviteCard = () => {
                   ))}
                 </TextField>
               </Grid>
-              {(formik.values.role == "TEACHER") ? <Grid
-                xs={12}
-                md={6}
-              >
-                <TextField
-                  fullWidth
-                  label="Selecionar Turma"
-                  name="classes"
-                  error={!!(formik.touched.classes && formik.errors.classes)}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  required
-                  select
-                  SelectProps={{ native: true }}
-                  value={formik.values.classes}
+              {(formik.values.role == "TEACHER") ? <>
+                <Grid
+                  xs={12}
+                  md={6}
                 >
-                  {classes.map((option) => (
-                    <option
-                      key={option.id}
-                      value={option}
-                    >
-                      {option.nome}
-                    </option>
-                  ))}
-                </TextField>
-              </Grid> : <></>}
-              {(formik.values.role == "TEACHER") ? <Grid
-                xs={12}
-                md={6}
-              >
-                <Select
-                  fullWidth
-
-                  multiple
-                  value={personName}
-                  onChange={handleChange}
-                  renderValue={(selected) => (
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                      {selected.map((value) => (
-                        <Chip key={value} label={subjects.find(subject => subject.id == value).nome} />
-                      ))}
-                    </Box>
-                  )}
-                  MenuProps={MenuProps}
+                  <Select
+                    fullWidth
+                    label="Selecionar Turma"
+                    name="classes"
+                    error={!!(formik.touched.classes && formik.errors.classes)}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.classes}
+                    required
+                    multiple
+                    renderValue={(selected) => (
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                        {selected.map((value) => (
+                          <Chip key={value} label={classes.find(classe => classe.id == value).nome} />
+                        ))}
+                      </Box>
+                    )}
+                  >
+                    {classes.map((classe) => (
+                      <MenuItem
+                        key={classe.id}
+                        value={classe.id}
+                      >
+                        {classe.nome}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Grid>
+                <Grid
+                  xs={12}
+                  md={6}
                 >
-                  {subjects.map((subject) => (
-                    <MenuItem
-                      key={subject.id}
-                      value={subject.id}
-                    >
-                      {subject.nome}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Grid> : <></>}
+                  <Select
+                    fullWidth
+                    label="Selecionar materia"
+                    name="subjects"
+                    error={!!(formik.touched.subjects && formik.errors.subjects)}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.subjects}
+                    required
+                    multiple
+                    renderValue={(selected) => (
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                        {selected.map((value) => (
+                          <Chip key={value} label={subjects.find(subject => subject.id == value).nome} />
+                        ))}
+                      </Box>
+                    )}
+                  >
+                    {subjects.map((subject) => (
+                      <MenuItem
+                        key={subject.id}
+                        value={subject.id}
+                      >
+                        {subject.nome}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Grid>
+              </> : <></>}
             </Grid>
           </Box>
         </CardContent>
