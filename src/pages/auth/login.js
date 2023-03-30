@@ -1,7 +1,6 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect, createContext } from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -14,8 +13,7 @@ import {
   Tab,
   Tabs,
   TextField,
-  Typography,
-  Radio
+  Typography
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useAuth } from 'src/hooks/use-auth';
@@ -23,15 +21,22 @@ import { Layout as AuthLayout } from 'src/layouts/auth/layout';
 import { useApi } from '../../service/Api';
 import AddIcon from '@mui/icons-material/Add';
 import { useAuthContext } from 'src/contexts/auth-context';
+import Modal from '../../components/modal.jsx';
+import styles from '../../styles/institutions/userInstitutionPage.module.scss';
+
+export const ModalContext = createContext([]);
 
 const Page = () => {
-  const router = useRouter();
   const [institutions, setInstitutions] = useState(null);
   const [message, setMessage] = useState(false);
-  const auth = useAuth();
+  const [modal, setModal] = useState(false);
   const [method, setMethod] = useState('email');
+  const [rows, setRows] = useState(institutions);
+
+  const auth = useAuth();
   const ApiService = useApi();
   const context = useAuthContext();
+
   const formik = useFormik({
     initialValues: {
       email: 'matheus@protonmail.com',
@@ -61,6 +66,8 @@ const Page = () => {
       }
     }
   });
+
+  console.log(rows);
   
   const handleMethodChange = useCallback(
     (event, value) => {
@@ -68,6 +75,13 @@ const Page = () => {
     },
     []
   );
+
+  useEffect(() => {
+    console.log('rodei');
+    setRows(institutions?.map(institution => (
+      { id: institution.id, name: institution.name, owner: institution.userOwner.name }
+    )));
+  }, [institutions]);
 
   return (
     <>
@@ -78,19 +92,20 @@ const Page = () => {
       </Head>
       <Box
         sx={{
-          backgroundColor: 'background.paper',
+          display: institutions ? 'block' : 'flex',
           flex: '1 1 auto',
           alignItems: 'center',
-          display: institutions === null ? 'flex' : 'none',
           justifyContent: 'center'
         }}
+        className={modal ? styles.pageContent : ''}
       >
         <Box
           sx={{
             maxWidth: 550,
             px: 3,
             py: '100px',
-            width: '100%'
+            width: '100%',
+            display: institutions === null ? 'flex' : 'none',
           }}
         >
           <div>
@@ -208,78 +223,108 @@ const Page = () => {
             )}
           </div>
         </Box>
-      </Box>
-      {institutions !== null && (
-        institutions.length ? (
-          <Box>
-            <DataGrid
-              rows={
-                institutions ? institutions.map(institution => (
-                  { id: institution.id, name: institution.name, owner: institution.userOwner.name }
-                )) : {}
-              }
-              columns={[
-                { field: 'name', headerName: 'Nome', width: 600 },
-                { field: 'owner', headerName: 'Gestor', width: 300 }
-              ]}
-              getRowId={row => row?.id}
-              checkboxSelection
-              onRowSelectionModelChange={item => {
-                item.length >= 1 ?
-                  context.setUserPayload(item[0]) :
-                  setMessage(true);
-              }}
-              sx={{
-                marginInline: 'auto',
-                marginTop: '8em'
-              }}
-            />
-            <p style={{ display: message ? 'inline' : 'none' }} >Selecione apenas uma Instituição</p>
-          </Box>
-        ) : (
-          <Box
-            sx={{ 
-              display: 'flex',
-              flexDirection: 'column',
-              width: '50vw',
-              mt: '12rem'
-            }}
-          >
-            <Box
-              sx={{ 
-                width: 'inherit',
-                display: 'flex',
-                justifyContent: 'end'
-              }}
-            >
-              <Button
-                sx={{ 
-                  backgroundColor: '#e8eaf6',
-                  borderRadius: '20px',
-                  width: '12rem',
-                  mb: '3em',
-                  mr: '2em'
+        {institutions !== null && (
+          institutions.length ? (
+            <Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'end',
+                  marginTop: '6rem'
                 }}
               >
-                Entrar com Código
+                <Button
+                  sx={{ 
+                    backgroundColor: '#e8eaf6',
+                    borderRadius: '20px',
+                    width: '12rem',
+                    mb: '3em',
+                    mr: '2em',
+                    opacity: modal ? '0.4' : '1'
+                  }}
+                  onClick={() => setModal(true)}
+                >
+                  Entrar com Código
+                </Button>
+                {modal && (
+                  <ModalContext.Provider value={[modal, setModal, setInstitutions]}>
+                    <Modal />
+                  </ModalContext.Provider>
+                )}
+              </Box>
+              <DataGrid
+                rows={rows ?? []}
+                columns={[
+                  { field: 'name', headerName: 'Nome', width: 600 },
+                  { field: 'owner', headerName: 'Gestor', width: 300 }
+                ]}
+                getRowId={row => row.id}
+                checkboxSelection
+                autoHeight
+                onRowSelectionModelChange={item => {
+                  item.length >= 1 ?
+                    context.setUserPayload(item[0]) :
+                    setMessage(true);
+                }}
+                sx={{
+                  marginInline: 'auto',
+                }}
+              />
+              <p style={{ display: message ? 'inline' : 'none' }} >Selecione apenas uma Instituição</p>
+            </Box>
+          ) : (
+            <Box
+              sx={{ 
+                display: 'flex',
+                flexDirection: 'column',
+                width: '50vw',
+                mt: '12rem'
+              }}
+            >
+              <Box
+                sx={{ 
+                  width: 'inherit',
+                  display: 'flex',
+                  justifyContent: 'end'
+                }}
+              >
+                <Button
+                  sx={{ 
+                    backgroundColor: '#e8eaf6',
+                    borderRadius: '20px',
+                    width: '12rem',
+                    mb: '3em',
+                    mr: '2em',
+                    opacity: modal ? '0.4' : '1'
+                  }}
+                  onClick={() => setModal(true)}
+                >
+                  Entrar com Código
+                </Button>
+                {modal && (
+                  <ModalContext.Provider value={[modal, setModal, setInstitutions]}>
+                    <Modal />
+                  </ModalContext.Provider>
+                )}
+              </Box>
+              <Button
+                fullWidth
+                size="large"
+                sx={{
+                  mt: 3,
+                  width: '20rem',
+                  margin: 'auto',
+                  opacity: modal ? '0.4' : '1'
+                }}
+                variant="contained"
+              >
+                <AddIcon />
+                Cadastrar Instituição
               </Button>
             </Box>
-            <Button
-              fullWidth
-              size="large"
-              sx={{
-                mt: 3,
-                width: '20rem',
-                margin: 'auto',
-              }}
-              variant="contained"
-            >
-              <AddIcon />
-              Cadastrar Instituição
-            </Button>
-          </Box>
-        )
-      )}
+          )
+        )}
+      </Box>
     </>
   );
 };

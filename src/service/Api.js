@@ -4,7 +4,7 @@ import Cookies from 'js-cookie'
 export const ApiService = axios.create({
 	// baseURL: 'https://conselho-service.onrender.com'
   baseURL: 'http://localhost:3000'
-})
+});
 
 export const useApi = () => ({
 	login: async (email, password) => {
@@ -31,5 +31,14 @@ export const useApi = () => ({
     });
 
     return response.data;
+  },
+  enterWithCode: async code => {
+    const response = await ApiService.post(`/institutions/invite/${code}`, null, {
+      headers: {
+        'Authorization': `Bearer ${Cookies.get('Token')}`
+      }
+    });
+
+    return response.data.instance;
   }
 });
