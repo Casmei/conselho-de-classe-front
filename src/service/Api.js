@@ -40,5 +40,14 @@ export const useApi = () => ({
     });
 
     return response.data.instance;
+  },
+  registerInstitution: async name => {
+    const response = await ApiService.post('/institutions', { name }, {
+      headers: {
+        'Authorization': `Bearer ${Cookies.get('Token')}`
+      }
+    });
+
+    return response.data;
   }
 });

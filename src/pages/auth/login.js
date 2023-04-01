@@ -32,6 +32,7 @@ const Page = () => {
   const [modal, setModal] = useState(false);
   const [method, setMethod] = useState('email');
   const [rows, setRows] = useState(institutions);
+  const [registerModal, setRegisterModal] = useState(false);
 
   const auth = useAuth();
   const ApiService = useApi();
@@ -97,7 +98,7 @@ const Page = () => {
           alignItems: 'center',
           justifyContent: 'center'
         }}
-        className={modal ? styles.pageContent : ''}
+        className={modal || registerModal ? styles.pageContent : ''}
       >
         <Box
           sx={{
@@ -273,55 +274,57 @@ const Page = () => {
               <p style={{ display: message ? 'inline' : 'none' }} >Selecione apenas uma Instituição</p>
             </Box>
           ) : (
-            <Box
-              sx={{ 
-                display: 'flex',
-                flexDirection: 'column',
-                width: '50vw',
-                mt: '12rem'
-              }}
-            >
+            <ModalContext.Provider value={[modal, setModal, registerModal, setRegisterModal, setInstitutions]}>
               <Box
                 sx={{ 
-                  width: 'inherit',
                   display: 'flex',
-                  justifyContent: 'end'
+                  flexDirection: 'column',
+                  width: '50vw',
+                  mt: '12rem'
                 }}
               >
-                <Button
+                <Box
                   sx={{ 
-                    backgroundColor: '#e8eaf6',
-                    borderRadius: '20px',
-                    width: '12rem',
-                    mb: '3em',
-                    mr: '2em',
-                    opacity: modal ? '0.4' : '1'
+                    width: 'inherit',
+                    display: 'flex',
+                    justifyContent: 'end'
                   }}
-                  onClick={() => setModal(true)}
                 >
-                  Entrar com Código
+                  <Button
+                    sx={{ 
+                      backgroundColor: '#e8eaf6',
+                      borderRadius: '20px',
+                      width: '12rem',
+                      mb: '3em',
+                      mr: '2em',
+                      opacity: modal || registerModal ? '0.4' : '1'
+                    }}
+                    onClick={() => setModal(true)}
+                  >
+                    Entrar com Código
+                  </Button>
+                  {modal &&
+                    <Modal title="Inserir código da instituição" />}
+                </Box>
+                <Button
+                  fullWidth
+                  size="large"
+                  sx={{
+                    mt: 3,
+                    width: '20rem',
+                    margin: 'auto',
+                    opacity: modal || registerModal ? '0.4' : '1'
+                  }}
+                  variant="contained"
+                  onClick={() => setRegisterModal(true)}
+                >
+                  <AddIcon />
+                  Cadastrar Instituição
                 </Button>
-                {modal && (
-                  <ModalContext.Provider value={[modal, setModal, setInstitutions]}>
-                    <Modal />
-                  </ModalContext.Provider>
-                )}
+                {registerModal &&
+                  <Modal title="Insira o nome da instituição" register />}
               </Box>
-              <Button
-                fullWidth
-                size="large"
-                sx={{
-                  mt: 3,
-                  width: '20rem',
-                  margin: 'auto',
-                  opacity: modal ? '0.4' : '1'
-                }}
-                variant="contained"
-              >
-                <AddIcon />
-                Cadastrar Instituição
-              </Button>
-            </Box>
+            </ModalContext.Provider>
           )
         )}
       </Box>
