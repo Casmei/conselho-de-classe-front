@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 
 export const ApiService = axios.create({
 	// baseURL: 'https://conselho-service.onrender.com'
-  baseURL: 'http://localhost:3000'
+  baseURL: 'http://localhost:3033'
 });
 
 export const useApi = () => ({
