@@ -40,8 +40,8 @@ const Page = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: 'matheus@protonmail.com',
-      password: '123456789',
+      email: '',
+      password: '',
       submit: null
     },
     validationSchema: Yup.object({
@@ -322,7 +322,8 @@ const Page = () => {
                   Cadastrar Instituição
                 </Button>
                 {registerModal &&
-                  <Modal title="Insira o nome da instituição" register />}
+                  <Modal title="Insira o nome da instituição"
+register />}
               </Box>
             </ModalContext.Provider>
           )
