@@ -130,7 +130,7 @@ export const SideNav = (props) => {
         </Box>
         <div className={styles.managerButton}>
           <Button
-            onClick={() => {router.push('/invite')}}
+            onClick={() => {router.push('/instituicoes/40/usuarios/convidar')}}
             startIcon={(
               <SvgIcon fontSize="small">
                 <PlusIcon />
