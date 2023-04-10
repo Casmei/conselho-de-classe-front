@@ -111,7 +111,7 @@ export const SideNav = (props) => {
               m: 0
             }}
           >
-            {items.map((item) => {
+            {items.map((item, index) => {
               const active = item.path ? (pathname === item.path) : false;
               return (
                 <SideNavItem
@@ -119,7 +119,7 @@ export const SideNav = (props) => {
                   disabled={item.disabled}
                   external={item.external}
                   icon={item.icon}
-                  key={item.title}
+                  key={index}
                   path={item.path}
                   title={item.title}
                   accordion={item.accordion ?? false}
