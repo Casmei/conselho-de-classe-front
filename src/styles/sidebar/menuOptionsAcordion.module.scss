@@ -1,0 +1,14 @@
+.menuTransition {
+    transition: display 200ms ease-in-out;
+}
+
+.iconRotate {
+    transform: rotate(90deg);
+    transition: transform 1s ease-in-out;
+    -webkit-transition: transform 1s ease-in-out;
+    -ms-transition: transform 1s ease-in-out;
+}
+
+.iconRotateBack {
+    transform: rotate(0deg);
+}

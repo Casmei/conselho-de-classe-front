@@ -13,7 +13,8 @@ import { OverviewTraffic } from 'src/sections/overview/overview-traffic';
 
 const now = new Date();
 
-const Page = () => (
+const Page = () => {
+  return (
   <>
     <Head>
       <title>
@@ -221,7 +222,8 @@ const Page = () => (
       </Container>
     </Box>
   </>
-);
+  );
+};
 
 Page.getLayout = (page) => (
   <DashboardLayout>
