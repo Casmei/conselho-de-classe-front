@@ -13,15 +13,20 @@ import {
   Typography,
   useMediaQuery
 } from '@mui/material';
+import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';
 import { items } from './config';
 import { SideNavItem } from './side-nav-item';
+import styles from '../../styles/sidebar/addManagerButton.module.scss';
+import { useRouter } from 'next/router';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
+  const router = useRouter();
 
   const content = (
     <Scrollbar
@@ -106,23 +111,36 @@ export const SideNav = (props) => {
               m: 0
             }}
           >
-            {items.map((item) => {
+            {items.map((item, index) => {
               const active = item.path ? (pathname === item.path) : false;
-
               return (
                 <SideNavItem
                   active={active}
                   disabled={item.disabled}
                   external={item.external}
                   icon={item.icon}
-                  key={item.title}
+                  key={index}
                   path={item.path}
                   title={item.title}
+                  accordion={item.accordion ?? false}
                 />
               );
             })}
           </Stack>
         </Box>
+        <div className={styles.managerButton}>
+          <Button
+            onClick={() => {router.push('/instituicoes/40/usuarios/convidar')}}
+            startIcon={(
+              <SvgIcon fontSize="small">
+                <PlusIcon />
+              </SvgIcon>
+            )}
+            variant="contained"
+          >
+            Adicionar Usuário
+          </Button>
+        </div>
       </Box>
     </Scrollbar>
   );

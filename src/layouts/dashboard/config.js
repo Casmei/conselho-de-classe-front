@@ -9,6 +9,9 @@ import XCircleIcon from '@heroicons/react/24/solid/XCircleIcon';
 import FaceIcon from '@mui/icons-material/Face';
 import ClassIcon from '@mui/icons-material/Class';
 import { SvgIcon } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 
 export const items = [
   {
@@ -21,8 +24,8 @@ export const items = [
     )
   },
   {
-    title: 'Usuários - [WIP]',
-    path: '/customers',
+    title: 'Usuários',
+    path: '/instituicoes/40/usuarios',
     icon: (
       <SvgIcon fontSize="small">
         <UsersIcon />
@@ -90,15 +93,6 @@ export const items = [
       <SvgIcon fontSize="small">
         <FaceIcon />
       </SvgIcon>
-    )
-  },
-  {
-    title: 'Turma',
-    path: '/instituicoes/40/turmas',
-    icon: (
-      <SvgIcon fontSize="small">
-        <ClassIcon />
-      </SvgIcon>
-    )
+    ),
   }
 ];
