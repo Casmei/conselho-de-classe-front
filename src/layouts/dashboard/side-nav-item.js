@@ -108,8 +108,9 @@ export const SideNavItem = (props) => {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                {accordion.map(item => (
+                {accordion.map((item, index) => (
                   <Box
+                    key={index}
                     component="span"
                     sx={{ 
                       color: 'neutral.400',
