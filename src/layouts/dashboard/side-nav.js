@@ -101,21 +101,20 @@ export const SideNav = (props) => {
             px: 2,
             py: 3
           }}
-        >
-          <Stack
-            component="ul"
-            spacing={0.5}
-            sx={{
-              listStyle: 'none',
-              p: 0,
-              m: 0
-            }}
           >
-            {items.map((item, index) => {
-              const active = item.path ? (pathname === item.path) : false;
-              return (
-                <SideNavItem
-                  active={active}
+          {items.map((item, index) => {
+            return (
+              <Stack
+              key={index}
+                component="ul"
+                spacing={0.5}
+                sx={{
+                  listStyle: 'none',
+                  p: 0,
+                  m: 0
+                }}
+              >
+              <SideNavItem
                   disabled={item.disabled}
                   external={item.external}
                   icon={item.icon}
@@ -124,9 +123,9 @@ export const SideNav = (props) => {
                   title={item.title}
                   accordion={item.accordion ?? false}
                 />
+          </Stack>
               );
             })}
-          </Stack>
         </Box>
         <div className={styles.managerButton}>
           <Button
