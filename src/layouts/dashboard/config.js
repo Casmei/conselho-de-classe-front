@@ -12,8 +12,9 @@ import { SvgIcon } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import ListAltIcon from '@mui/icons-material/ListAlt';
+import { useAuthContext } from 'src/contexts/auth-context';
 
-export const items = [
+export const getItems = instanceId => [
   {
     title: 'Conselho de Classe - [WIP]',
     path: '/',
@@ -25,7 +26,7 @@ export const items = [
   },
   {
     title: 'Usuários',
-    path: '/instituicoes/40/usuarios',
+    path: `/instituicoes/${instanceId}/usuarios`,
     icon: (
       <SvgIcon fontSize="small">
         <UsersIcon />
@@ -59,40 +60,13 @@ export const items = [
       </SvgIcon>
     )
   },
-  // {
-  //   title: 'Login',
-  //   path: '/auth/login',
-  //   icon: (
-  //     <SvgIcon fontSize="small">
-  //       <LockClosedIcon />
-  //     </SvgIcon>
-  //   )
-  // },
-  // {
-  //   title: 'Register',
-  //   path: '/auth/register',
-  //   icon: (
-  //     <SvgIcon fontSize="small">
-  //       <UserPlusIcon />
-  //     </SvgIcon>
-  //   )
-  // },
-  // {
-  //   title: 'Error',
-  //   path: '/404',
-  //   icon: (
-  //     <SvgIcon fontSize="small">
-  //       <XCircleIcon />
-  //     </SvgIcon>
-  //   )
-  // },
   {
     title: 'Estudante',
-    path: '/instituicoes/40/estudantes',
+    path: `/instituicoes/${instanceId}/estudantes`,
     icon: (
       <SvgIcon fontSize="small">
         <FaceIcon />
       </SvgIcon>
     ),
   }
-];
+]

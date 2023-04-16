@@ -12,8 +12,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-export const SideNavItem = (props) => {
-  const { active = false, disabled, external, icon, path, title, accordion } = props;
+export const SideNavItem = ({ active = false, disabled, external, icon, path, title, accordion }) => {
   const [displayed, setDisplayed] = useState(false);
   const [rotate, setRotate] = useState({});
   const menu = useRef(null);
@@ -183,58 +182,6 @@ export const SideNavItem = (props) => {
             </ButtonBase>
           )
         }
-          
-        {/* {dropdown && ( 
-          <Box
-            component="span"
-            sx={{ 
-              color: 'neutral.400',
-              display: 'flex',
-              alignItems: 'baseline',
-              ...(active && {
-                color: 'primary.main'
-              })
-            }}
-          >
-            <ArrowForwardIosIcon className={rotate} style={{ transform: !displayed ? 'rotate(0deg)' : '' }} />
-          </Box>
-        )} */}
-      {/* {dropdown && options.map(option => (
-        <ButtonBase
-          sx={{
-            borderRadius: 1,
-            textAlign: 'left',
-            width: '100%',
-            color: 'neutral.400',
-            ...(active && {
-              backgroundColor: 'rgba(255, 255, 255, 0.04)'
-            }),
-            '&:hover': {
-              backgroundColor: 'rgba(255, 255, 255, 0.04)'
-            }
-          }}
-          onClick={() => router.push(option.path)}
-        >
-          <CSSTransition nodeRef={menu} in={displayed} timeout={200} classNames={styles.menuTransition} > 
-            <section
-              style={{
-                display: (displayed ? 'inherit' : 'none'),
-                justifyContent: 'start',
-                width: 'inherit',
-                paddingLeft: '3em',
-              }}
-              ref={menu}
-            >
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                marginRight: '1em'
-              }} >{option.icon}</div>
-              <p>{option.title}</p>
-            </section>
-          </CSSTransition>
-        </ButtonBase>
-      ))} */}
     </li>
   );
 };

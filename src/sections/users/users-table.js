@@ -14,6 +14,7 @@ import {
 import { Scrollbar } from 'src/components/scrollbar';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import { useRouter } from 'next/router';
 
 export const UsersTable = ({
     count = 0,
@@ -22,7 +23,9 @@ export const UsersTable = ({
     onRowsPerPageChange,
     page = 0,
     rowsPerPage = 0,
+    editPath = null
 }) => {
+    const router = useRouter();
 
     return (
         <Card>
@@ -37,12 +40,12 @@ export const UsersTable = ({
                                 <TableCell>
                                     Email
                                 </TableCell>
-                                <TableCell>
+                                {/* <TableCell>
                                     Cargo
-                                </TableCell>
-                                <TableCell>
+                                </TableCell> */}
+                                {/* <TableCell>
                                     Data de entrada
-                                </TableCell>
+                                  </TableCell>*/}
                                 <TableCell>
                                     Ações
                                 </TableCell>
@@ -50,7 +53,7 @@ export const UsersTable = ({
                         </TableHead>
                         <TableBody>
                             {items.map((customer) => {
-                                const createdAt = format(customer.createdAt, 'dd/MM/yyyy');
+                                // const createdAt = format(customer.createdAt, 'dd/MM/yyyy');
                                 return (
                                     <TableRow
                                         hover
@@ -62,17 +65,17 @@ export const UsersTable = ({
                                         <TableCell>
                                             {customer.email}
                                         </TableCell>
-                                        <TableCell>
+                                        {/* <TableCell>
                                             {customer.cargo.replace("MANAGER", "Gestor").replace("TEACHER", "Professor")}
-                                        </TableCell>
-                                        <TableCell>
+                                        </TableCell> */}
+                                        {/* <TableCell>
                                             {createdAt}
-                                        </TableCell>
+                                        </TableCell> */}
                                         <TableCell>
                                             <IconButton
                                                 aria-label="edit"
                                                 onClick={() => {
-                                                    route.push('/students/edit')
+                                                    router.push(editPath ?? router.reload)
                                                 }}
                                             >
                                                 <ModeEditOutlineOutlinedIcon />
