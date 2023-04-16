@@ -78,6 +78,9 @@
 }
 
 .selectOptions {
+  display: none;
+  color: $base-color;
+  margin-top: 1.2em;
   background-color: inherit;
   border: none;
   width: 95%;
@@ -136,6 +139,10 @@
       outline: none;
       border: none;
     }
+  }
+
+  .selectOptions {
+    display: block;
   }
 }
 

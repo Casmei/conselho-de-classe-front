@@ -25,7 +25,7 @@ const Page = ({ courses, classes }) =>  {
       >
         <Container maxWidth="lg">
           <Stack spacing={3}>
-            <div>
+            <div style={{ marginLeft: '8rem' }}>
               <Typography variant="h4">
                 Criar Estudante
               </Typography>

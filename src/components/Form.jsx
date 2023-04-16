@@ -57,6 +57,7 @@ export const Form = ({ title, subTitle, courses, classes }) => {
             id="courses"
             className={styles.selectOptions}
             onChange={event => setCourse(event.target.value)}
+            autofocus
           >
             <option value="" disabled selected></option>
             {courses.map(course => (
@@ -70,7 +71,12 @@ export const Form = ({ title, subTitle, courses, classes }) => {
           onChange={event => setCourse(event.target.value)}
         >
           <label htmlFor="classes" className={styles.inputTitle}>Turmas</label>
-          <select name="classes" id="classes" className={styles.selectOptions}>
+          <select
+            name="classes"
+            id="classes" className={styles.selectOptions}
+            onChange={event => setCourse(event.target.value)}
+            autofocus
+          >
             <option value="" disabled selected></option>
             {classes.map(classe => (
               <option value={classe.name} key={classe.id} >{classe.name}</option>
