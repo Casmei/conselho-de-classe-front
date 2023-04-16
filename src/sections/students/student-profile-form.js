@@ -17,7 +17,7 @@ import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
 
 
-export const StudentProfileForm = ({title, subheader, method}) => {
+export const StudentProfileForm = ({ title, subheader, method, instanceId }) => {
   const router = useRouter();
 
   const formik = useFormik({
@@ -47,12 +47,12 @@ export const StudentProfileForm = ({title, subheader, method}) => {
     }),
     onSubmit: async (values, helpers) => {
       try {
-        // if(method == 'POST') {
-        //   ApiService.post(`/institutions/40/students`, values).then(() => {
-        //     router.back()
-        //   })
-        // }
-        router.push('/instituicoes/40/estudantes');
+        if(method == 'POST') {
+          ApiService.post(`/institutions/${instanceId}/students`, values).then(() => {
+            router.back()
+          })
+        }
+        router.push(`/instituicoes/${instanceId}/estudantes`);
       } catch (err) {
         helpers.setStatus({ success: false });
         helpers.setErrors({ submit: err.message });

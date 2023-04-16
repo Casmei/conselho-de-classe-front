@@ -16,17 +16,20 @@ import {
 import PlusIcon from '@heroicons/react/24/solid/PlusIcon';
 import { Logo } from 'src/components/logo';
 import { Scrollbar } from 'src/components/scrollbar';
-import { items } from './config';
+import { getItems } from './config';
 import { SideNavItem } from './side-nav-item';
 import styles from '../../styles/sidebar/addManagerButton.module.scss';
 import { useRouter } from 'next/router';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { useAuthContext } from 'src/contexts/auth-context';
 
 export const SideNav = (props) => {
   const { open, onClose } = props;
   const pathname = usePathname();
   const lgUp = useMediaQuery((theme) => theme.breakpoints.up('lg'));
   const router = useRouter();
+  const { instance } = useAuthContext();
+  const items = getItems(instance);
 
   const content = (
     <Scrollbar
@@ -105,7 +108,7 @@ export const SideNav = (props) => {
           {items.map((item, index) => {
             return (
               <Stack
-              key={index}
+                key={index}
                 component="ul"
                 spacing={0.5}
                 sx={{
@@ -115,14 +118,14 @@ export const SideNav = (props) => {
                 }}
               >
               <SideNavItem
-                  disabled={item.disabled}
-                  external={item.external}
-                  icon={item.icon}
-                  key={index}
-                  path={item.path}
-                  title={item.title}
-                  accordion={item.accordion ?? false}
-                />
+                disabled={item.disabled}
+                external={item.external}
+                icon={item.icon}
+                key={index}
+                path={item.path}
+                title={item.title}
+                accordion={item.accordion ?? false}
+              />
           </Stack>
               );
             })}

@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 
 export const ApiService = axios.create({
 	// baseURL: 'https://conselho-service.onrender.com'
-  baseURL: 'http://localhost:3033'
+  baseURL: 'http://localhost:3000'
 });
 
 export const useApi = () => ({
@@ -43,6 +43,15 @@ export const useApi = () => ({
   },
   registerInstitution: async name => {
     const response = await ApiService.post('/institutions', { name }, {
+      headers: {
+        'Authorization': `Bearer ${Cookies.get('Token')}`
+      }
+    });
+
+    return response.data;
+  },
+  retrieveInstanceUsers: async () => {
+    const response = await ApiService.get('/users', {
       headers: {
         'Authorization': `Bearer ${Cookies.get('Token')}`
       }

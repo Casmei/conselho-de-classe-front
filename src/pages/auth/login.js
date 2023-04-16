@@ -68,8 +68,6 @@ const Page = () => {
     }
   });
 
-  console.log(rows);
-  
   const handleMethodChange = useCallback(
     (event, value) => {
       setMethod(value);
@@ -78,7 +76,6 @@ const Page = () => {
   );
 
   useEffect(() => {
-    console.log('rodei');
     setRows(institutions?.map(institution => (
       { id: institution.id, name: institution.name, owner: institution.userOwner.name }
     )));
@@ -107,6 +104,7 @@ const Page = () => {
             py: '100px',
             width: '100%',
             display: institutions === null ? 'flex' : 'none',
+            justifyContent: 'center'
           }}
         >
           <div>
@@ -152,6 +150,9 @@ const Page = () => {
               <form
                 noValidate
                 onSubmit={formik.handleSubmit}
+                style={{
+                  width: 'calc(50vw * 0.6)'
+                }}
               >
                 <Stack spacing={3}>
                   <TextField
@@ -177,9 +178,6 @@ const Page = () => {
                     value={formik.values.password}
                   />
                 </Stack>
-                <FormHelperText sx={{ mt: 1 }}>
-                  Optionally you can skip.
-                </FormHelperText>
                 {formik.errors.submit && (
                   <Typography
                     color="error"
@@ -198,15 +196,6 @@ const Page = () => {
                 >
                   Continue
                 </Button>
-                <Alert
-                  color="primary"
-                  severity="info"
-                  sx={{ mt: 3 }}
-                >
-                  <div>
-                    You can use <b>demo@devias.io</b> and password <b>Password123!</b>
-                  </div>
-                </Alert>
               </form>
             )}
             {method === 'phoneNumber' && (
